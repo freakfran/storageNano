@@ -9,9 +9,8 @@ import {
 } from "@/lib/utils";
 import { InputFile } from "node-appwrite/file";
 import { appwriteConfig } from "@/lib/appwrite/config";
-import { ID, Models, Query } from "node-appwrite";
+import { ID, Query } from "node-appwrite";
 import { revalidatePath } from "next/cache";
-import { getCurrentUser } from "@/lib/actions/user.actions";
 
 export const uploadFile = async ({
   file,
