@@ -54,6 +54,19 @@ export const actionsDropdownItems = [
   },
 ];
 
+export const visitorActionsDropdownItems = [
+  {
+    label: "Details",
+    icon: "/assets/icons/info.svg",
+    value: "details",
+  },
+  {
+    label: "Download",
+    icon: "/assets/icons/download.svg",
+    value: "download",
+  },
+];
+
 export const sortTypes = [
   {
     label: "Date created (newest)",

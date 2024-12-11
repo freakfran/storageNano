@@ -22,6 +22,7 @@ interface MobileNavigationProps {
   $id: string;
   accountId: string;
   email: string;
+  isLoggedIn: boolean;
 }
 
 const MobileNavigation = ({
@@ -30,6 +31,7 @@ const MobileNavigation = ({
   $id: ownerId,
   accountId,
   email,
+  isLoggedIn,
 }: MobileNavigationProps) => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -96,22 +98,24 @@ const MobileNavigation = ({
             </ul>
           </nav>
           <Separator className="my-5 bg-light-200/20" />
-          <div className="flex flex-col justify-between gap-5 pb-5">
-            <FileUploader ownerId={ownerId} accountId={accountId} />
-            <Button
-              type="submit"
-              className="mobile-sign-out-button"
-              onClick={async () => await signOutUser()}
-            >
-              <Image
-                src="/assets/icons/logout.svg"
-                alt="sign out"
-                width={24}
-                height={24}
-              />
-              <p>Log out</p>
-            </Button>
-          </div>
+          {isLoggedIn && (
+            <div className="flex flex-col justify-between gap-5 pb-5">
+              <FileUploader ownerId={ownerId} accountId={accountId} />
+              <Button
+                type="submit"
+                className="mobile-sign-out-button"
+                onClick={async () => await signOutUser()}
+              >
+                <Image
+                  src="/assets/icons/logout.svg"
+                  alt="sign out"
+                  width={24}
+                  height={24}
+                />
+                <p>Log out</p>
+              </Button>
+            </div>
+          )}
         </SheetContent>
       </Sheet>
     </header>

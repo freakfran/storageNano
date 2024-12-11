@@ -60,17 +60,17 @@ export const uploadFile = async ({
 };
 
 const createQueries = (
-  currentUser: Models.Document,
+  // currentUser: Models.Document,
   types: FileType[],
   searchText: string,
   sort: string,
   limit?: number,
 ) => {
   const queries = [
-    Query.or([
-      Query.equal("owner", currentUser.$id),
-      Query.contains("users", currentUser.email),
-    ]),
+    // Query.or([
+    //   Query.equal("owner", currentUser.$id),
+    //   Query.contains("users", currentUser.email),
+    // ]),
   ];
   if (types.length > 0) {
     queries.push(Query.equal("type", types));
@@ -97,9 +97,9 @@ export const getFiles = async ({
   const { database } = await createAdminClient();
 
   try {
-    const currentUser = await getCurrentUser();
-    if (!currentUser) throw new Error("No user found");
-    const queries = createQueries(currentUser, types, searchText, sort, limit);
+    // const currentUser = await getCurrentUser();
+    // if (!currentUser) throw new Error("No user found");
+    const queries = createQueries(types, searchText, sort, limit);
 
     const files = await database.listDocuments(
       appwriteConfig.databaseId,

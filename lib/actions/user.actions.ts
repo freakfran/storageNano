@@ -54,6 +54,7 @@ export const createAccount = async ({
         email,
         avatar: AVATAR_PLACEHOLDER_URL,
         accountId,
+        isAdmin: false,
       },
     );
   }
@@ -92,7 +93,7 @@ export const getCurrentUser = async () => {
 
     return parseStringify(user.documents[0]);
   } catch {
-    redirect("/sign-in");
+    console.log("游客登入");
   }
 };
 

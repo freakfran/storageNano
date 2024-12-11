@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    :root {
+        --chart-1: 12 76% 61%;
+        --chart-2: 173 58% 39%;
+        --chart-3: 197 37% 24%;
+        --chart-4: 43 74% 66%;
+        --chart-5: 27 87% 67%;
+    }
+
+    .dark {
+        --chart-1: 220 70% 50%;
+        --chart-2: 160 60% 45%;
+        --chart-3: 30 80% 55%;
+        --chart-4: 280 65% 60%;
+        --chart-5: 340 75% 55%;
+    }
+}
+
 @layer utilities{
     /* ===== TYPOGRAPHY */
     .h1 {
@@ -281,6 +299,9 @@
     .sign-out-button {
         @apply flex-center h-[52px] min-w-[54px] items-center rounded-full bg-brand/10 p-0 text-brand shadow-none transition-all hover:bg-brand/20 !important;
     }
+    .sign-in-button {
+        @apply flex-center h-[52px] min-w-[80px] items-center rounded-full bg-brand/10 p-0 text-brand shadow-none transition-all hover:bg-brand/20 !important;
+    }
 
     /* Mobile Navigation */
     .mobile-header {
@@ -340,6 +361,9 @@
     }
     .sidebar-user-info {
         @apply mt-4 flex items-center justify-center gap-2 rounded-full bg-brand/10 p-1 text-light-100 lg:justify-start lg:p-3 !important;
+    }
+    .sidebar-visitor-info {
+        @apply mt-4 flex flex-row items-center gap-2 justify-between rounded-full bg-brand/10 p-1 lg:justify-start lg:p-3 !important;
     }
     .sidebar-user-avatar {
         @apply aspect-square w-10 rounded-full object-cover !important;

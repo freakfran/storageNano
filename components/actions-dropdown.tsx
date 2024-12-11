@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 import Image from "next/image";
-import { actionsDropdownItems } from "@/constants";
+import { actionsDropdownItems, visitorActionsDropdownItems } from "@/constants";
 import Link from "next/link";
 import { constructDownloadUrl } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -30,7 +30,13 @@ import {
 import { usePathname } from "next/navigation";
 import { FileDetails, ShareInput } from "@/components/actions-modal-content";
 
-const ActionsDropdown = ({ file }: { file: Models.Document }) => {
+const ActionsDropdown = ({
+  file,
+  isAdmin,
+}: {
+  file: Models.Document;
+  isAdmin: boolean;
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [action, setAction] = useState<ActionType | null>(null);
@@ -38,6 +44,10 @@ const ActionsDropdown = ({ file }: { file: Models.Document }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [emails, setEmails] = useState<string[]>([]);
   const path = usePathname();
+
+  const dropDownItems = isAdmin
+    ? actionsDropdownItems
+    : visitorActionsDropdownItems;
 
   const closeAllModals = () => {
     setIsModalOpen(false);
@@ -162,7 +172,7 @@ const ActionsDropdown = ({ file }: { file: Models.Document }) => {
             {file.name}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {actionsDropdownItems.map((item) => (
+          {dropDownItems.map((item) => (
             <DropdownMenuItem
               key={item.value}
               className="shad-dropdown-item"

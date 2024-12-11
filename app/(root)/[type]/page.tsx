@@ -3,6 +3,7 @@ import { getFiles } from "@/lib/actions/file.actions";
 import { Models } from "node-appwrite";
 import FileCard from "@/components/file-card";
 import { getFileTypesParams } from "@/lib/utils";
+import { getCurrentUser } from "@/lib/actions/user.actions";
 
 const Page = async ({ params, searchParams }: SearchParamProps) => {
   const type = ((await params)?.type as string) || "";
@@ -11,6 +12,8 @@ const Page = async ({ params, searchParams }: SearchParamProps) => {
 
   const types = getFileTypesParams(type) as FileType[];
   const files = await getFiles({ types, searchText, sort });
+  const user = await getCurrentUser();
+  const isAdmin = user ? user.isAdmin : false;
   return (
     <div className="page-container">
       <section className="w-full">
@@ -30,7 +33,7 @@ const Page = async ({ params, searchParams }: SearchParamProps) => {
       {files.total > 0 ? (
         <section className="file-list">
           {files.documents.map((file: Models.Document, index: number) => (
-            <FileCard key={index} file={file} />
+            <FileCard key={index} file={file} isAdmin={isAdmin} />
           ))}
         </section>
       ) : (
