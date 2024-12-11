@@ -178,3 +178,82 @@ export const deleteFile = async ({
     handleError(error, "Error deleting file");
   }
 };
+
+export const getTotalSpaceUsed = async () => {
+  const { database } = await createAdminClient();
+  try {
+    const files = await database.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.filesCollectionId,
+      [Query.select(["size", "type", "$createdAt"])],
+    );
+    return files
+      ? files.documents.reduce(
+          (acc, file) => {
+            if (file.type === "image") {
+              acc.image.size += file.size;
+              if (
+                acc.image.latestDate === "" ||
+                file.$createdAt > acc.image.latestDate
+              ) {
+                acc.image.latestDate = file.$createdAt;
+              }
+            } else if (file.type === "document") {
+              acc.document.size += file.size;
+              if (
+                acc.document.latestDate === "" ||
+                file.$createdAt > acc.document.latestDate
+              ) {
+                acc.document.latestDate = file.$createdAt;
+              }
+            } else if (file.type === "video") {
+              acc.video.size += file.size;
+              if (
+                acc.video.latestDate === "" ||
+                file.$createdAt > acc.video.latestDate
+              ) {
+                acc.video.latestDate = file.$createdAt;
+              }
+            } else if (file.type === "audio") {
+              acc.audio.size += file.size;
+              if (
+                acc.audio.latestDate === "" ||
+                file.$createdAt > acc.audio.latestDate
+              ) {
+                acc.audio.latestDate = file.$createdAt;
+              }
+            } else {
+              acc.other.size += file.size;
+              if (
+                acc.other.latestDate === "" ||
+                file.$createdAt > acc.other.latestDate
+              ) {
+                acc.other.latestDate = file.$createdAt;
+              }
+            }
+            acc.used += file.size;
+            return acc;
+          },
+          {
+            image: { size: 0, latestDate: "" },
+            document: { size: 0, latestDate: "" },
+            video: { size: 0, latestDate: "" },
+            audio: { size: 0, latestDate: "" },
+            other: { size: 0, latestDate: "" },
+            used: 0,
+            all: 2 * 1024 * 1024 * 1024, // 2GB available bucket storage
+          },
+        )
+      : {
+          image: { size: 0, latestDate: "" },
+          document: { size: 0, latestDate: "" },
+          video: { size: 0, latestDate: "" },
+          audio: { size: 0, latestDate: "" },
+          other: { size: 0, latestDate: "" },
+          used: 0,
+          all: 2 * 1024 * 1024 * 1024, // 2GB available bucket storage
+        };
+  } catch (error) {
+    handleError(error, "Error getting total space used");
+  }
+};
